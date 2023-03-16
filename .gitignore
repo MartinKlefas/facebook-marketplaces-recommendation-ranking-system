@@ -130,5 +130,4 @@ dmypy.json
 
 
 #downloaded csv files from ec2
-Images.csv
-Products.csv
+*.csv

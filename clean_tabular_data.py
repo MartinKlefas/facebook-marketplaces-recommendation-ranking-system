@@ -20,12 +20,15 @@ def geoCode( df: pd.DataFrame, addressColumns):
 
         return df
 
-def clean_products(df: pd.DataFrame):        
+def clean_products(df: pd.DataFrame, geoCode : bool):   
+        df = df.drop(columns=["Unnamed: 0"])
+        df = df.rename(columns={"id": "product_id"})     
         df["price"] = df["price"].str.replace('£', '', regex=False)
         df["price"] = df["price"].str.replace(',', '', regex=False)
         df['price'] = pd.to_numeric(df['price'],errors="coerce")
-        df = geoCode(df=df,addressColumns="location")
-        df = df.drop(columns=["Unnamed: 0",'full_address',"location"])
+        if geoCode:
+                df = geoCode(df=df,addressColumns="location")
+                df = df.drop(columns=["Unnamed: 0",'full_address',"location"])
 
         return df
 
@@ -40,8 +43,8 @@ def import_image_data():
 
         return df
 
-def import_product_data():
+def import_product_data(doGeoCode: bool):
         df = pd.read_csv(filepath_or_buffer='Products.csv',lineterminator="\n")
-        df = clean_products(df)
+        df = clean_products(df, doGeoCode)
 
         return df
