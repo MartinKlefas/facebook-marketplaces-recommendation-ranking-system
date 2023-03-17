@@ -129,5 +129,7 @@ dmypy.json
 .pyre/
 
 
-#downloaded csv files from ec2
+#downloaded csv & image files from ec2
 *.csv
+*.zip
+images/
