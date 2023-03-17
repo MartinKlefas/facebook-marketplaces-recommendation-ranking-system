@@ -43,4 +43,4 @@ def clean_image_data(path: str, size: int):
         if os.path.isfile(path + item):
             im = Image.open(path + item)
             new_im = resize_image(final_size, im)
-            new_im.save(f'{path}clean_image_data/{item}.jpg')
+            new_im.save(f'{path}clean_image_data/{item}')
