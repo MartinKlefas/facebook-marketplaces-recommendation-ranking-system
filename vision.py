@@ -1,4 +1,4 @@
-import os
+import os, json
 import pandas as pd
 from torchvision.io import read_image
 from torch.utils.data import Dataset
@@ -22,3 +22,7 @@ class classification_dataset(Dataset):
         if self.target_transform:
             label = self.target_transform(label)
         return image, label    
+    
+    def human_category_label(category : int):
+        lookup = json.load("categories.json")
+        return lookup[category]

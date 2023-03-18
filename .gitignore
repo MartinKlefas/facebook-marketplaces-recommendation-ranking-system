@@ -132,4 +132,5 @@ dmypy.json
 #downloaded csv & image files from ec2
 *.csv
 *.zip
+*.json
 images/
