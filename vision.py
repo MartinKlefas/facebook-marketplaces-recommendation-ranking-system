@@ -26,3 +26,7 @@ class classification_dataset(Dataset):
     def human_category_label(category : int):
         lookup = json.load("categories.json")
         return lookup[category]
+    
+    def machine_category_label(category : str):
+        lookup = json.load("categories.json")
+        return lookup[category]
