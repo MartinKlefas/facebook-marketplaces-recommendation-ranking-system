@@ -1,3 +1,4 @@
+
 # Facebook Marketplace Recommendation Ranking System
 
 This is one of the specialisation projects from the AICore curriculum, and is a work in progress.
@@ -22,5 +23,12 @@ Overview and connections to git & aws
 		- Resizing and saving with default options will standardise this
 		- code implemented in `clean_images.py`
 2) Convert `Product Categories` into machine readable integers with a dictionary to act as a human readable key.
+
+# Milestone 4
+Create a vision model & feature extraction model - [implemented in a notebook as a one-off exploration](https://github.com/MartinKlefas/facebook-marketplaces-recommendation-ranking-system/blob/main/retrain.ipynb)
+1) Import data into PyTorch
+2) Strip output layer from ResNet 50 and replace with retrained layer
+3) Create a pre-processor script for future images [image_processor.py](https://github.com/MartinKlefas/facebook-marketplaces-recommendation-ranking-system/blob/main/image_processor.py)
+4) Verify that the CNN sometimes correctly predicts what root category an item will be in.
 
 > Written with [StackEdit](https://stackedit.io/).
