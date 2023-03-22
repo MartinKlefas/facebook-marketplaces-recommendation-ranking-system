@@ -5,7 +5,7 @@ This is one of the specialisation projects from the AICore curriculum, and is a 
 
 Some details of the (vastly simplified version of the) system being cloned are explained in this video here: https://www.youtube.com/watch?v=1Z5V2VrHTTA
 
-  
+Essentially though, the outputs of a CNN trained for classification of product images can also be used to determine how similar too images are. It's almost saying "this image of a product is 90% fridge-like and so the user may also like this other one that's 91% fridge and this one that's 89% fridge" - this means that if a person can subconsciously narrow their search - picking out unknown details rather than explicit ones. Facebook won't know that what the user is looking for a car that looks like a fridge - but they'll know what products to show them next.
 
 # Milestone 1 & 2
 
