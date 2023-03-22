@@ -2,6 +2,9 @@ import cv2
 from tqdm import tqdm
 import os, sys, argparse
 
+from torch.utils.data import Dataset
+from torchvision import transforms
+
 defaultSize = 224
 
 argParser = argparse.ArgumentParser()
@@ -50,19 +53,18 @@ def processFolder(path: str, size: int = defaultSize):
     dirs = os.listdir(path)
     final_size = size
 
-    # Check if the output folder exists and create it if possible
-    Created, ErrorCode = validate_output_dir(path + "clean_image_data/")
-    if not Created : # then there was an error
-        print(ErrorCode)
-        raise ErrorCode
+    
     
     total = len(dirs)
+    new_images = dict()
 
     for item in tqdm(dirs,bar_format='{l_bar}{bar}| {percentage:3.0f}% {n}/{total} [{remaining}{postfix}]',desc="Resizing"):
         if os.path.isfile(path + item):
             im = cv2.imread(path + item)
-            new_im = resize_image(final_size, im)
-            new_im.save(f'{path}clean_image_data/{item}')
+            new_images[item]= resize_image(final_size, im)
+    
+    return new_images
+            
 
 
 
@@ -80,6 +82,24 @@ if args.image :
 
 if args.dir :
     try:
-        processFolder(args.dir)
+        new_images  = processFolder(args.dir)
+        if args.out:
+            # Check if the output folder exists and create it if possible
+            Created, ErrorCode = validate_output_dir(args.dir + "clean_image_data/")
+            if not Created : # then there was an error
+                
+                raise ErrorCode
+            for file, new_im in new_images:
+                new_im.save(os.path.join(args.dir,args.out,file))
+        else:
+            for file, new_im in new_images:
+                new_im.save(os.path.join(args.dir,file))
     except Exception as ex:
         print(ex)
+
+def fullPreProcess_Image(filePath: str):
+    image = processImage(thisPath= filePath)
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+    return transform(image)
