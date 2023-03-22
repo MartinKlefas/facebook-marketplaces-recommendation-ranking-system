@@ -31,4 +31,7 @@ Create a vision model & feature extraction model - [implemented in a notebook as
 3) Create a pre-processor script for future images [image_processor.py](https://github.com/MartinKlefas/facebook-marketplaces-recommendation-ranking-system/blob/main/image_processor.py)
 4) Verify that the CNN sometimes correctly predicts what root category an item will be in.
 
+Output from training the feature extraction model is shown below:
+![error graph levelling out with epoch](Tensorboard.PNG)
+
 > Written with [StackEdit](https://stackedit.io/).
