@@ -124,6 +124,7 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+test.py
 
 # Pyre type checker
 .pyre/
@@ -137,3 +138,6 @@ images/
 
 runs/
 model_evaluation/
+
+#faiss index too
+*.index

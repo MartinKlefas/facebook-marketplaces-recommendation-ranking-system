@@ -3,6 +3,7 @@ from tqdm import tqdm
 import os
 
 from torchvision import transforms
+import torch
 
 defaultSize = 224
 
@@ -64,3 +65,26 @@ def fullPreProcess_Image(filePath: str):
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
     return transform(image)
+
+
+    
+
+def getEmbedding(image, model):
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    
+    pyImage = fullPreProcess_Image(filePath=image).unsqueeze(0)
+
+    layer = model._modules.get('avgpool')
+
+    my_embedding = torch.zeros(2048)
+
+    def copy_data(m, i, o):
+        my_embedding.copy_(o.data.reshape(o.data.size(1)))
+
+    h = layer.register_forward_hook(copy_data)
+
+    model(pyImage.to(device))
+
+    h.remove()
+
+    return my_embedding
