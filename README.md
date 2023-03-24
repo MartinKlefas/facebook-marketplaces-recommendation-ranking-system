@@ -34,4 +34,12 @@ Create a vision model & feature extraction model - [implemented in a notebook as
 Output from training the feature extraction model is shown below:
 ![error graph levelling out with epoch](Tensorboard.PNG)
 
+# Milestone 5
+FAISS is a relational database useful for finding vectors similar to the search term. If you use an encoder to "vectorise" a collection of any kind of object, you can then use a FAISS database to find objects similar to those in the database. In this implementation we're encoding the product images, so that we can find out what a "new" item on marketplace is most similar to from our sample of 12,000 existing items.
+
+In order to do this we:
+ 1. Vectorise all samples
+ 2. Add them to FAISS and select an appropriate function to "index" them
+ 3. create a lookup function to return details of the most "similar" results when this database is searched.
+
 > Written with [StackEdit](https://stackedit.io/).
