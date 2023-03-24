@@ -138,6 +138,7 @@ images/
 
 runs/
 model_evaluation/
+received_files/
 
 #faiss index too
 *.index
