@@ -60,7 +60,8 @@ except:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     #everything else on startup is already implemented
-    print("startup complete")
+    image_processor.validate_output_dir("received_files")
+    
     yield
     # Clean up the uploads folder
     for filename in os.listdir('received_files'):
