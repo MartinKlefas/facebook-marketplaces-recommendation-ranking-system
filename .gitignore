@@ -139,6 +139,7 @@ images/
 runs/
 model_evaluation/
 received_files/
+app/
 
 #faiss index too
 *.index
