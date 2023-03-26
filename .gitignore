@@ -134,12 +134,15 @@ test.py
 *.csv
 *.zip
 *.json
+*.pt
 images/
 
 runs/
 model_evaluation/
 received_files/
-app/
 
 #faiss index too
 *.index
+
+#personal notes
+notes.txt
