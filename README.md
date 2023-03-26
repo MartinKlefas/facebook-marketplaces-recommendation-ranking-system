@@ -23,6 +23,10 @@ Create a classification model & feature extraction model - [implemented in a not
 4) Verify that the CNN mostly correctly predicts what category an item will be in
    - this indicates that the CNN is properly partitioning the images and so is identifying similarities properly.
 
+>Output from training the feature extraction model is shown below:
+>![error graph levelling out with epoch](Tensorboard.PNG)
+
+
 # Part 3
 FAISS is a relational database useful for finding vectors similar to the search term. If you use an encoder to "vectorise" a collection of any kind of object, you can then use a FAISS database to find objects similar to those in the database. In this implementation we're encoding the product images, with the feature extraction model. Putting the encoded data into FAISS allows us to then test an image (novel or existing) to see which other images are "similar" to it, and so which other products to show to the user.
 
