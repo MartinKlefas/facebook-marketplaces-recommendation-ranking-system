@@ -94,22 +94,6 @@ def predict_combined(matches: str = 3,image: UploadFile = File(...)):
     searchEmbedding = np.array(searchEmbedding,dtype="float32",ndmin=2)
     # if we look at https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/ 
     # we can actually have a "y" dimensional list of searchEmbeddings, and find matches for all of them with a single call.
-    """         To perform a search:
-
-
-        # xq is a n2-by-d matrix with query vectors
-        k = 4                          # we want 4 similar vectors
-        D, I = index.search(xq, k)     # actual search
-        print I
-
-        I is an integer matrix. The output is something like this:
-
-
-        [[  0 393 363  78]
-        [  1 555 277 364]
-        [  2 304 101  13]]
-
-        For the first vector of xq, the index of the most similar vectors in xb is 0 (0-based), the second most similar is #393, the third is #363, and so on. For the second vector of xq, the list of similar vectors is #1, #555, etc. In this case, the first three vectors of xq seem to be the same as the first three of xb. """
     
     
     nprobe = 5
