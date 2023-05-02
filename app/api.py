@@ -18,35 +18,48 @@ from contextlib import asynccontextmanager
 
 import image_processor
 
-
-
 start_time = datetime.now()
+def init(doModel : bool = False, doDevice : bool = False,doIndex : bool = False,doImageList : bool = False):
+    if doModel or doDevice: 
+        try:
+            
+            device = torch.device("cpu")
 
-try:
+
+            model = torch.load('best_weights.pt',map_location=device)
+            
+            pass
+        except:
+            raise OSError("No Feature Extraction model found. Check that you have the decoder and the model in the correct location")
+    else:
+        model = None
+        device = None
+
+    if doIndex:
+        try:
+            index = faiss.read_index('images_faiss.index')
+            pass
+        except:
+            raise OSError("No FAISS index found. Check that you have the encoder and the model in the correct location")
+    else:
+        index = None
+
+    if doImageList:
+        try:
+            imageList =   pd.read_csv(filepath_or_buffer='training_data.csv')
+            pass
+        except:
+            raise OSError("No image key dictionary found. Check that it's in the correct folder")
+    else:
+        imageList = None
+        
     
-    device = torch.device("cpu")
+    return model, device, index, imageList
 
 
-    model = torch.load('best_weights.pt',map_location=torch.device('cpu'))
-    
-    pass
-except:
-    raise OSError("No Feature Extraction model found. Check that you have the decoder and the model in the correct location")
-
-try:
-    index = faiss.read_index('images_faiss.index')
-    pass
-except:
-    raise OSError("No FAISS index found. Check that you have the encoder and the model in the correct location")
-
-try:
-    imageList =   pd.read_csv(filepath_or_buffer='training_data.csv')
-    pass
-except:
-    raise OSError("No image key dictionary found. Check that it's in the correct folder")
 
 app = FastAPI()
-print("Starting server")
+
 
 @app.get('/healthcheck')
 def healthcheck():
@@ -72,6 +85,8 @@ def healthcheck_file(image: UploadFile = File(...)):
   
 @app.post('/predict/feature_embedding')
 def predict_image(image: UploadFile = File(...)):
+    model, device, index, imageList = init(doModel=True)
+    
     newPath = os.path.join(str(uuid.uuid4())+'_'+image.filename)#'received_files',str(uuid.uuid4())+'_'+image.filename)
     with open(newPath, "wb") as buffer:
         shutil.copyfileobj(image.file, buffer)
@@ -85,6 +100,7 @@ def predict_image(image: UploadFile = File(...)):
   
 @app.post('/predict/similar_image_indices')
 def predict_combined(matches: str = 3,image: UploadFile = File(...)):
+    model, device, index, imageList = init(doModel=True,doIndex=True)
 
     newPath = os.path.join(str(uuid.uuid4())+'_'+image.filename)#'received_files',str(uuid.uuid4())+'_'+image.filename)
     with open(newPath, "wb") as buffer:
@@ -105,6 +121,7 @@ def predict_combined(matches: str = 3,image: UploadFile = File(...)):
 
 @app.post('/predict/similar_images')
 def return_images(matches: str = 3,image: UploadFile = File(...)):
+    model, device, index, imageList = init(doModel=True,doImageList=True,doIndex=True)
 
     newPath = os.path.join(str(uuid.uuid4())+'_'+image.filename)
     with open(newPath, "wb") as buffer:
@@ -130,6 +147,12 @@ def return_images(matches: str = 3,image: UploadFile = File(...)):
     
     
 if __name__ == '__main__':
+ 
   uvicorn.run("api:app", host="0.0.0.0", port=8080)
+
+else:
+    print("Starting server")
+
+
 
 
