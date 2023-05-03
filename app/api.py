@@ -1,20 +1,17 @@
-import pickle
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+
 from fastapi import File
 from fastapi import UploadFile
 from fastapi import Form
 import torch
-import torch.nn as nn
-from pydantic import BaseModel
-import faiss, os, shutil, uuid, time
+
+import faiss, os, shutil, uuid
 import numpy as np
 from datetime import datetime
 import pandas as pd
 
-from contextlib import asynccontextmanager
 
 import image_processor
 
