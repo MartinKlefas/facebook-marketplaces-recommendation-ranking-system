@@ -55,10 +55,34 @@ def init(doModel : bool = False, doDevice : bool = False,doIndex : bool = False,
 
 
 
-app = FastAPI()
+app = FastAPI(
+    title="FAISS Image Similarity API",
+    description="This API accepts images for a similarity search based on a sample of images scraped from Facebook Marketplace. The intention being to see if a hypothetical user would be interested in a new item.",
+    version="1.0.1",
+    contact={
+        "name": "Martin Klefas-Stennett",
+        "url": "https://martinklefas.github.io/",
+    },
+    license_info={
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
+    },
+)
+
+tags_metadata = [
+    {
+        "name": "Health Check",
+        "description": "Operations to check if the API is running and properly configured.",
+    },
+    {
+        "name": "Predict",
+        "description": "Operations which accept an input image and pass it through the trained model",
+        
+    },
+]
 
 
-@app.get('/healthcheck')
+@app.get('/healthcheck',tags=["Health Check"])
 def healthcheck():
   timediff = datetime.now() - start_time
 
@@ -67,7 +91,7 @@ def healthcheck():
   
   return {"message": msg}
 
-@app.post('/healthcheck/file')
+@app.post('/healthcheck/file',tags=["Health Check"])
 def healthcheck_file(image: UploadFile = File(...)):
   newPath = os.path.join(str(uuid.uuid4())+'_'+image.filename)
   try:
@@ -80,8 +104,8 @@ def healthcheck_file(image: UploadFile = File(...)):
   
 
   
-@app.post('/predict/feature_embedding')
-def predict_image(image: UploadFile = File(...)):
+@app.post('/predict/feature_embedding',tags=["Predict"])
+def Image_Embedding_String(image: UploadFile = File(...)):
     model, device, index, imageList = init(doModel=True)
     
     newPath = os.path.join(str(uuid.uuid4())+'_'+image.filename)#'received_files',str(uuid.uuid4())+'_'+image.filename)
@@ -95,8 +119,8 @@ def predict_image(image: UploadFile = File(...)):
    
         })
   
-@app.post('/predict/similar_image_indices')
-def predict_combined(matches: str = 3,image: UploadFile = File(...)):
+@app.post('/predict/similar_image_indices',tags=["Predict"])
+def show_similar_image_indeces(matches: str = 3,image: UploadFile = File(...)):
     model, device, index, imageList = init(doModel=True,doIndex=True)
 
     newPath = os.path.join(str(uuid.uuid4())+'_'+image.filename)#'received_files',str(uuid.uuid4())+'_'+image.filename)
@@ -116,8 +140,8 @@ def predict_combined(matches: str = 3,image: UploadFile = File(...)):
     "similar_indices": indices.tolist(), # Return the index of similar images here
         })
 
-@app.post('/predict/similar_images')
-def return_images(matches: str = 3,image: UploadFile = File(...)):
+@app.post('/predict/similar_images',tags=["Predict"])
+def return_matching_image_filenames(matches: str = 3,image: UploadFile = File(...)):
     model, device, index, imageList = init(doModel=True,doImageList=True,doIndex=True)
 
     newPath = os.path.join(str(uuid.uuid4())+'_'+image.filename)
